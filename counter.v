@@ -1,14 +1,17 @@
-module counter (
-    input  wire       clk,
-    input  wire       rst,
-    output reg  [3:0] count
+module counter #(
+    parameter WIDTH = 4
+)(
+    input  wire             clk,
+    input  wire             rst,
+    input  wire             en,
+    output reg  [WIDTH-1:0] count
 );
 
-    always @(posedge clk or posedge rst) begin
-        if (rst)
-            count <= 4'd0;
-        else
-            count <= count + 1'b1;
-    end
+always @(posedge clk) begin
+    if (rst)
+        count <= {WIDTH{1'b0}};
+    else if (en)
+        count <= count + 1'b1;
+end
 
 endmodule
